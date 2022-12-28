@@ -25,10 +25,12 @@ let opcionDeMokepones
 let inputHipodoge
 let inputCapipepo
 let inputRatigueya
+let inputLombris
 let mascotaJugador
 let ataquesMokepon
 let ataquesMokeponEnemigo
 let botonFuego
+let botonViento
 let botonAgua
 let botonTierra
 let botones = []
@@ -54,12 +56,15 @@ let capipepo = new Mokepon('Capipepo', './assets/mokepons_mokepon_capipepo_attac
 
 let ratigueya = new Mokepon('Ratigueya', './assets/mokepons_mokepon_ratigueya_attack.png', 5)
 
+let lombris = new Mokepon('Lombris', './assets/mokepons_mokepon_pydos_attack.png', 5)
+
 hipodoge.ataques.push(
     { nombre: '💧', id: 'boton-agua' },
     { nombre: '💧', id: 'boton-agua' },
     { nombre: '💧', id: 'boton-agua' },
     { nombre: '🔥', id: 'boton-fuego' },
     { nombre: '🌱', id: 'boton-tierra' },
+    { nombre: '🍃', id: 'boton-viento' },
 )
 
 capipepo.ataques.push(
@@ -68,6 +73,7 @@ capipepo.ataques.push(
     { nombre: '🌱', id: 'boton-tierra' },
     { nombre: '💧', id: 'boton-agua' },
     { nombre: '🔥', id: 'boton-fuego' },
+    { nombre: '🍃', id: 'boton-viento' },
     
 )
 
@@ -77,9 +83,19 @@ ratigueya.ataques.push(
     { nombre: '🔥', id: 'boton-fuego' }, 
     { nombre: '💧', id: 'boton-agua' },
     { nombre: '🌱', id: 'boton-tierra' },
+    { nombre: '🍃', id: 'boton-viento' },
 )
 
-mokepones.push(hipodoge,capipepo,ratigueya)
+lombris.ataques.push(
+    { nombre: '🍃', id: 'boton-viento' },
+    { nombre: '🍃', id: 'boton-viento' },
+    { nombre: '🍃', id: 'boton-viento' }, 
+    { nombre: '💧', id: 'boton-agua' },
+    { nombre: '🌱', id: 'boton-tierra' },
+    { nombre: '🔥', id: 'boton-fuego' },
+)
+
+mokepones.push(hipodoge,capipepo,ratigueya,lombris)
 
 function iniciarJuego() {
     
@@ -98,6 +114,7 @@ function iniciarJuego() {
      inputHipodoge = document.getElementById('Hipodoge')
      inputCapipepo = document.getElementById('Capipepo')
      inputRatigueya = document.getElementById('Ratigueya')
+     inputLombris = document.getElementById('Lombris')
 
     })
     
@@ -128,7 +145,10 @@ function seleccionarMascotaJugador() {
     } else if (inputRatigueya.checked) {
         spanMascotaJugador.innerHTML = inputRatigueya.id
         mascotaJugador = inputRatigueya.id
-    } else {
+    }else if (inputLombris.checked){
+        spanMascotaJugador.innerHTML = inputLombris.id
+        mascotaJugador = inputLombris.id
+    }else {
         alert('Selecciona una mascota')
     }
 
@@ -158,6 +178,7 @@ function mostrarAtaques(ataques) {
      botonFuego = document.getElementById('boton-fuego')
      botonAgua = document.getElementById('boton-agua')
      botonTierra = document.getElementById('boton-tierra')
+     botonViento = document.getElementById('boton-viento')
      botones = document.querySelectorAll('.BAtaque')
 }
 
@@ -174,7 +195,12 @@ function secuenciaAtaque() {
                 console.log(ataqueJugador)
                 boton.style.background = '#112f58'
                 boton.disabled = true  
-            } else {
+            }else if (e.target.textContent === '🍃') {
+                ataqueJugador.push('VIENTO')
+                console.log(ataqueJugador)
+                boton.style.background = '#112f58'
+                boton.disabled = true  
+            }else {
                 ataqueJugador.push('TIERRA')
                 console.log(ataqueJugador)
                 boton.style.background = '#112f58'
@@ -202,8 +228,10 @@ function ataqueAleatorioEnemigo() {
     if (ataqueAleatorio == 0 || ataqueAleatorio ==1) {
         ataqueEnemigo.push('FUEGO')
     } else if (ataqueAleatorio == 3 || ataqueAleatorio == 4) {
+        ataqueEnemigo.push('VIENTO')
+    } else if(ataqueAleatorio == 5){
         ataqueEnemigo.push('AGUA')
-    } else {
+    }else{
         ataqueEnemigo.push('TIERRA')
     }
     console.log(ataqueEnemigo)
@@ -211,7 +239,7 @@ function ataqueAleatorioEnemigo() {
 }
 
 function iniciarPelea() {
-    if (ataqueJugador.length === 5) {
+    if (ataqueJugador.length === 6) {
         combate()
     }
 }
